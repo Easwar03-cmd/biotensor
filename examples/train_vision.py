@@ -85,6 +85,5 @@ print(f"Average Spikes: {avg_spikes}")
 
 if accuracy == 100 and avg_spikes < 15000:
     print("\n🏆 SUCCESS: OPTIMIZED ARCHITECTURE FOUND.")
-    print("Use these parameters for the Research Paper methodology.")
 else:
     print("\n⚠️ ADJUSTMENT NEEDED.")

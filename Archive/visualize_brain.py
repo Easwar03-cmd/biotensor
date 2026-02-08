@@ -1,12 +1,22 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from biotensor.encoder import SpikeEncoder
-from biotensor.reservoir import BioReservoir
-from biotensor.vision import VisionLoader
-from brian2 import *
 import sys
 import os
-sys.path.append(os.getcwd())
+
+# --- 1. FORCE THE PATH (The "Nuclear" Fix) ---
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+print(f"DEBUG: Project Root added to path: {project_root}")
+# ---------------------------------------------------------
+
+import numpy as np  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
+from biotensor.encoder import SpikeEncoder  # noqa: E402
+from biotensor.reservoir import BioReservoir  # noqa: E402
+from biotensor.vision import VisionLoader  # noqa: E402
+from brian2 import *  # noqa: E402
 
 
 # CONFIG

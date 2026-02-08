@@ -1,3 +1,15 @@
-debug/
+# Python junk
 __pycache__/
-*.wav
+*.py[cod]
+*$py.class
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Virtual Environments
+venv/
+env/

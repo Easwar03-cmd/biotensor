@@ -6,7 +6,14 @@
 
 **BioTensor** is an open-source Python framework designed to bridge the translation gap between digital data and biological computing substrates. It implements a **Liquid State Machine (LSM)** architecture using Leaky Integrate-and-Fire (LIF) neurons to simulate the chaotic, fading-memory dynamics of cortical organoids.
 
+* **Visual Cortex ($N_{vis}$):** 500 neurons processing latency-encoded visual afferents.
+* **Auditory Cortex ($N_{aud}$):** 500 neurons processing MFCC audio features.
+* **Associative Connectome:** A sparse, recurrent weight matrix ($p=0.1$) linking the senses.
+
 > **Key Innovation:** BioTensor features a specialized "Homeostatic Clamp" algorithm that reduces metabolic energy consumption (spike count) by **62%** while maintaining **100% classification accuracy** on sensory tasks.
+1.  **Partitioned Reservoir:** Solves the impedance mismatch between high-dimensional video and low-dimensional audio.
+2.  **The Eraser (Anti-Hebbian Learning):** A distinct plasticity rule that actively punishes ambiguity, preventing "hallucinations" of shared features.
+3.  **Energy Normalization:** A homeostatic scaling algorithm that solves the "David vs. Goliath" energy imbalance between dense and sparse inputs.
 
 ## 🧠 Features
 
@@ -27,22 +34,20 @@ pip install -r requirements.txt
 BioTensor can learn to recognize handwritten digits with zero backpropagation.
 
 ```bash
-from biotensor.vision import VisionLoader
-from biotensor.reservoir import BioReservoir
-from biotensor.encoder import SpikeEncoder
-from biotensor.decoder import ReadoutLayer
+from biotensor_kernel import BioTensorKernel
 
-# 1. Load Data
-loader = VisionLoader()
-X, y = loader.get_pair(digit_A=0, digit_B=1)
+# 1. Initialize the Kernel
+brain = BioTensorKernel(n_neurons=1000, n_vision=64, n_audio=13)
 
-# 2. Initialize the Organoid
-brain = BioReservoir(n_neurons=1000)
-encoder = SpikeEncoder()
-decoder = ReadoutLayer()
+# 2. Learn (Association Phase)
+# The brain self-organizes using STDP + The Eraser
+brain.learn(vision_data=X_train, audio_data=audio_train, labels=y_train)
 
-# 3. Simulate & Train
-# ... (See examples/train_vision.py for full loop)
+# 3. Recall (Testing Phase)
+# We remove the audio. Can the brain "hear" the image?
+brain_activity = brain.recall(vision_data=X_test)
+
+print("Recall Complete. Brain activity recorded.")
 ```
 
 🔬 Scientific Validation
@@ -55,6 +60,20 @@ Phoneme Recognition: Distinguished synthetic vowels /a/ ("ahh") and /i/ ("eee") 
 
 📂 Project Structure
 
-biotensor/: Core library source code.
+biotensor/: Core library containing encoders, decoders, and processors.
 
-examples/: Scripts to reproduce the experiments from the research paper.
+biotensor_kernel.py: The main "Operating System" class encapsulating the physics.
+
+examples/: Demo scripts (e.g., main.py) reproducing the 95% accuracy results.
+
+📄 Citation
+If you use BioTensor in your research, please cite:
+
+```bash
+@software{biotensor2026,
+  author = {Easwar},
+  title = {BioTensor: A Software Framework for Spiking Encoding in Organoid Intelligence},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {Pending Publication}
+```
